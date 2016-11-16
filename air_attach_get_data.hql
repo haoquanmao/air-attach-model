@@ -1480,61 +1480,6 @@ group by core.tpid
 
 
 
-DROP TABLE IF EXISTS ewwgao.hmao_aa_all_summary;
-CREATE TABLE ewwgao.hmao_aa_all_summary AS
-select hotel.tpid
-		,hotel.begin_use_date_key
-		,hotel.end_use_date_key
-		,hotel.trvl_acct_email_addr
-		,hotel.tckt_route_key
-		,hotel.if_hotel_attach
-		,hotel.if_package
-		,hotel.If_one_way
-		,car.if_car_attach
-		,lx.if_lx_attach
-		,ins.if_ins_attach
-from		(select tpid
-					,begin_use_date_key
-					,end_use_date_key
-					,trvl_acct_email_addr
-					,tckt_route_key
-					,if_hotel_attach
-					,case 
-						when product_ln_key in (101,104,107,186,190,191) then 1
-						else 0 end as if_package
-					,case
-						when air_trip_typ_id = 1 then 1
-						else 0 end as If_one_way
-			from ewwgao.hmao_aa_hotel_model) hotel
-left join	(select tpid
-					,begin_use_date_key
-					,end_use_date_key
-					,trvl_acct_email_addr
-					,tckt_route_key
-					,if_car_attach
-			from ewwgao.hmao_aa_car_model) car on hotel.tpid = car.tpid and hotel.begin_use_date_key = car.begin_use_date_key
-												and hotel.end_use_date_key = car.end_use_date_key and hotel.tckt_route_key = car.tckt_route_key
-												and hotel.trvl_acct_email_addr = car.trvl_acct_email_addr
-left join	(select tpid
-					,begin_use_date_key
-					,end_use_date_key
-					,trvl_acct_email_addr
-					,tckt_route_key
-					,if_lx_attach
-			from ewwgao.hmao_aa_lx_model) lx on hotel.tpid = lx.tpid and hotel.begin_use_date_key = lx.begin_use_date_key
-												and hotel.end_use_date_key = lx.end_use_date_key and hotel.tckt_route_key = lx.tckt_route_key
-												and hotel.trvl_acct_email_addr = lx.trvl_acct_email_addr 
-left join	(select tpid
-					,begin_use_date_key
-					,end_use_date_key
-					,trvl_acct_email_addr
-					,tckt_route_key
-					,if_ins_attach
-			from ewwgao.hmao_aa_ins_model) ins on hotel.tpid = ins.tpid and hotel.begin_use_date_key = ins.begin_use_date_key
-												and hotel.end_use_date_key = ins.end_use_date_key and hotel.tckt_route_key = ins.tckt_route_key
-												and hotel.trvl_acct_email_addr = ins.trvl_acct_email_addr 
-
-
 
 
 
